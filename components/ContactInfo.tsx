@@ -79,9 +79,14 @@ export default function ContactInfo() {
             <div className="flex-shrink-0 w-12 h-12 bg-[#1b4d2b]/10 rounded-lg flex items-center justify-center text-[#1b4d2b]">
               {method.icon}
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <h4 className="font-semibold text-[#1b4d2b]">{method.title}</h4>
-              <p className="text-gray-800 font-medium">{method.details}</p>
+              {/* ONLY EMAIL DETAILS CHANGED - Smaller text with truncation */}
+              {method.title === 'Email' ? (
+                <p className="text-xs font-medium text-gray-800 break-all truncate">{method.details}</p>
+              ) : (
+                <p className="text-gray-800 font-medium">{method.details}</p>
+              )}
               <p className="text-gray-600 text-sm">{method.description}</p>
             </div>
           </div>

@@ -39,10 +39,10 @@ export default function LoginPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-[#1b4d2b] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <span className="text-white font-bold text-xl">KM</span>
+              <span className="text-white font-bold text-xl">UP</span>
             </div>
             <h1 className="text-3xl font-bold text-[#1b4d2b] mb-2">Welcome Back</h1>
-            <p className="text-gray-600">Sign in to your FarmTools Pro account</p>
+            <p className="text-gray-600">Sign in to your Udhaya Prime Oil Industry account</p>
           </div>
           
           <form onSubmit={handleLogin}>

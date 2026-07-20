@@ -121,26 +121,40 @@ export const productAPI = {
     return fetchAPI<{ success: boolean; data: Product }>(`/products/${id}`);
   },
 
-  // Get product by slug with fallback
-  getBySlug: async (slug: string): Promise<{ success: boolean; data: Product }> => {
-    try {
-      return await fetchAPI<{ success: boolean; data: Product }>(`/products/slug/${slug}`);
-    } catch (error: unknown) {
-      // If slug endpoint fails, try to find by slug from all products
-      const apiError = error as APIError;
-      if (apiError.status === 404 || apiError.status === 500) {
-        console.warn(`Slug endpoint failed, trying search fallback for slug: ${slug}`);
-        const allProducts = await fetchAPI<{ success: boolean; data: Product[]; count: number }>('/products');
-        const product = allProducts.data.find((p: Product) => p.slug === slug);
-        
-        if (product) {
-          return { success: true, data: product };
-        }
-      }
-      throw error;
-    }
-  },
+// lib/api.ts - MODIFY ONLY THIS FUNCTION
 
+// Get product by slug with fallback
+getBySlug: async (slug: string): Promise<{ success: boolean; data: Product }> => {
+  try {
+    // ✅ ADD THIS: If slug is too long, search by name instead
+    if (slug.length > 100) {
+      const searchTerm = slug.replace(/-/g, ' ').split(' ').slice(0, 5).join(' ');
+      const result = await fetchAPI<{ success: boolean; data: Product[]; count: number }>(
+        `/products?search=${encodeURIComponent(searchTerm)}&limit=1`
+      );
+      if (result.data && result.data.length > 0) {
+        return { success: true, data: result.data[0] };
+      }
+    }
+    
+    // Original code - unchanged
+    return await fetchAPI<{ success: boolean; data: Product }>(`/products/slug/${slug}`);
+    
+  } catch (error: unknown) {
+    // Original code - unchanged
+    const apiError = error as APIError;
+    if (apiError.status === 404 || apiError.status === 500) {
+      console.warn(`Slug endpoint failed, trying search fallback for slug: ${slug}`);
+      const allProducts = await fetchAPI<{ success: boolean; data: Product[]; count: number }>('/products');
+      const product = allProducts.data.find((p: Product) => p.slug === slug);
+      
+      if (product) {
+        return { success: true, data: product };
+      }
+    }
+    throw error;
+  }
+},
   // Get products by category
   getByCategory: async (categoryId: string, params?: GetByCategoryParams): Promise<{ 
     success: boolean; 

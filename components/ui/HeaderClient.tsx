@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { settingsAPI } from '@/lib/settings-api';
 import CartDrawer from '@/components/CartDrawer';
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Phone, Mail } from "lucide-react";
 
 interface Category {
   _id: string;
@@ -52,15 +52,20 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
   const [lastScrollY, setLastScrollY] = useState(0);
   
   // Dynamic contact information state
-  const [contactEmail, setContactEmail] = useState('hello@beautycare.com');
-  const [phoneNumbersList, setPhoneNumbersList] = useState<string[]>(['+91 98765 43210']);
-  const [phoneIndex, setPhoneIndex] = useState(0);
+  const [contactEmail, setContactEmail] = useState('info@company.com');
+  const [contactNumber, setContactNumber] = useState('+91 98765 43210');
+  const [facebookUrl, setFacebookUrl] = useState('');
+  const [twitterUrl, setTwitterUrl] = useState('');
+  const [instagramUrl, setInstagramUrl] = useState('');
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
   const [isLoadingContact, setIsLoadingContact] = useState(true);
   
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const shopDropdownRef = useRef<HTMLDivElement>(null);
+  const profileDropdownRef = useRef<HTMLDivElement>(null); // Add ref for profile dropdown
 
   const [isMobile, setIsMobile] = useState(false);
  
@@ -95,37 +100,21 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
             }
           }
           
-          // Set contact email from settings
+          // Set contact info from settings
           if (settings.contactEmail && settings.contactEmail.trim() !== '') {
             setContactEmail(settings.contactEmail);
           }
           
-          // Set phone numbers from settings
-          const phoneNumbers: string[] = [];
-          
-          // Add contact number if available
           if (settings.contactNumber && settings.contactNumber.trim() !== '') {
-            phoneNumbers.push(settings.contactNumber);
+            setContactNumber(settings.contactNumber);
           }
           
-          // Add WhatsApp number if available and different from contact number
-          if (settings.whatsappNumber && settings.whatsappNumber.trim() !== '' && 
-              settings.whatsappNumber !== settings.contactNumber) {
-            phoneNumbers.push(settings.whatsappNumber);
-          }
-          
-          // Add call number if available and different from others
-          if (settings.callNumber && settings.callNumber.trim() !== '' && 
-              settings.callNumber !== settings.contactNumber && 
-              settings.callNumber !== settings.whatsappNumber) {
-            phoneNumbers.push(settings.callNumber);
-          }
-          
-          // If we have phone numbers from settings, use them
-          if (phoneNumbers.length > 0) {
-            setPhoneNumbersList(phoneNumbers);
-          }
-          // Otherwise keep the default phone number
+          // Set social media URLs
+          if (settings.facebookUrl) setFacebookUrl(settings.facebookUrl);
+          if (settings.twitterUrl) setTwitterUrl(settings.twitterUrl);
+          if (settings.instagramUrl) setInstagramUrl(settings.instagramUrl);
+          if (settings.youtubeUrl) setYoutubeUrl(settings.youtubeUrl);
+          if (settings.linkedinUrl) setLinkedinUrl(settings.linkedinUrl);
         }
       } catch (error) {
         console.error('Error loading site settings:', error);
@@ -136,16 +125,6 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
 
     loadSiteSettings();
   }, []);
-
-  // Phone number carousel effect
-  useEffect(() => {
-    if (phoneNumbersList.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setPhoneIndex((prev) => (prev + 1) % phoneNumbersList.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [phoneNumbersList.length]);
 
   const getLogoLines = () => {
     if (!siteNameMain || siteNameMain.trim() === '') {
@@ -284,16 +263,24 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
   
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Close search when clicking outside
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
         setShowSearch(false);
         setSearchQuery('');
         setSearchResults([]);
       }
       
+      // Close shop dropdown when clicking outside
       if (shopDropdownRef.current && !shopDropdownRef.current.contains(event.target as Node)) {
         setShowShopDropdown(false);
       }
       
+      // Close profile dropdown when clicking outside
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+      
+      // Close mobile menu when clicking outside
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node) && isMobileMenuOpen) {
         setIsMobileMenuOpen(false);
       }
@@ -309,6 +296,9 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
         if (showShopDropdown) {
           setShowShopDropdown(false);
         }
+        if (showDropdown) {
+          setShowDropdown(false);
+        }
         if (isCartOpen) {
           setIsCartOpen(false);
         }
@@ -322,7 +312,7 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [showSearch, showShopDropdown, isMobileMenuOpen, isCartOpen]);
+  }, [showSearch, showShopDropdown, showDropdown, isMobileMenuOpen, isCartOpen]);
 
   const getCartItemCount = () => {
     if (!cart?.items) return 0;
@@ -334,9 +324,79 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
   return (
     <>
       <div className="xl:sticky xl:top-0 z-40">
+        {/* Top Header - White Background */}
+        <div className="bg-white border-b border-gray-200 py-1.5 sm:py-2 hidden md:block">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between">
+              {/* Left Side - Contact Info */}
+              <div className="flex items-center space-x-4 lg:space-x-6">
+                {contactNumber && (
+                  <a 
+                    href={`tel:${contactNumber.replace(/\s/g, '')}`} 
+                    className="flex items-center space-x-2 text-xs text-gray-600 hover:text-[#1b4d2b] transition-colors"
+                  >
+                    <Phone className="w-3 h-3" />
+                    <span>{contactNumber}</span>
+                  </a>
+                )}
+                {contactEmail && (
+                  <a 
+                    href={`mailto:${contactEmail}`} 
+                    className="flex items-center space-x-2 text-xs text-gray-600 hover:text-[#1b4d2b] transition-colors"
+                  >
+                    <Mail className="w-3 h-3" />
+                    <span>{contactEmail}</span>
+                  </a>
+                )}
+              </div>
+
+              {/* Right Side - Social Links */}
+              <div className="flex items-center space-x-4">
+                <span className="text-xs text-gray-500">Follow us:</span>
+              {facebookUrl && (
+  <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1b4d2b] transition-colors">
+    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  </a>
+)}
+                {twitterUrl && (
+                  <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1b4d2b] transition-colors">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                    </svg>
+                  </a>
+                )}
+                {instagramUrl && (
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1b4d2b] transition-colors">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                  </a>
+                )}
+                {youtubeUrl && (
+                  <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1b4d2b] transition-colors">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  </a>
+                )}
+                {linkedinUrl && (
+                  <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1b4d2b] transition-colors">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Header */}
         <header className="bg-[#1b4d2b] text-white border-b border-white/20">
           <div className="container mx-auto px-2 sm:px-4 lg:px-6">
-            <div className="flex items-center justify-between h-16 sm:h-20 md:h-24 lg:h-18">
+            <div className="flex items-center justify-between h-16 sm:h-20 md:h-24 lg:h-20">
               {/* Logo Section - Responsive */}
               <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                 <button
@@ -350,7 +410,7 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
                 </button>
 
                 <Link href="/" className="flex items-center group cursor-pointer">
-                  <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 transition-transform duration-200 group-hover:scale-105">
+                  <div className="relative w-15 h-15 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-22 lg:h-20 mt-1 transition-transform duration-200 scale-105">
                     <Image
                       src="/images/logo.png"
                       alt={siteNameMain || 'Logo'}
@@ -360,21 +420,21 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
                     />
                   </div>
                   
-                  {logoFirstLine && (
+                  {/* {logoFirstLine && (
                     <div className="flex flex-col justify-center ml-1 sm:ml-2">
                       <span className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold tracking-tighter leading-none text-white drop-shadow-md">
                         {logoFirstLine}
                       </span>
                       
                       {logoSecondLine && (
-                        <div className="flex items-center mt-0.5">
+                        <div className="flex items-center mt-0.5 ml-3">
                           <span className="text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs font-bold uppercase tracking-wider text-[#FFD166]">
                             {logoSecondLine}
                           </span>
                         </div>
                       )}
                     </div>
-                  )}
+                  )} */}
                 </Link>
               </div>
 
@@ -584,8 +644,7 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
                               <svg className="w-4 h-4 text-white/70 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                               </svg>
-                              <input
-                                ref={searchInputRef}
+                              <input                                ref={searchInputRef}
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -715,7 +774,7 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
                 {!showSearch && (
                   <div className="flex items-center">
                     {user ? (
-                      <div className="relative">
+                      <div ref={profileDropdownRef} className="relative">
                         <button
                           onClick={() => setShowDropdown(!showDropdown)}
                           className="flex items-center space-x-1 sm:space-x-2 text-white hover:text-[#FFD166] transition-all duration-300 hover:bg-white/10 rounded-xl p-1.5 sm:p-2 cursor-pointer"
@@ -795,15 +854,15 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
                         className="flex items-center space-x-2 group cursor-pointer"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        <div className="relative w-12 h-12 sm:w-14 sm:h-14">
+                        <div className="relative w-18 h-18 sm:w-14 sm:h-14">
                           <Image
                             src="/images/logo.png"
                             alt={siteNameMain || 'Logo'}
                             fill
-                            className="object-contain"
+                            className="object-contain "
                           />
                         </div>
-                        
+{/*                         
                         {logoFirstLine && (
                           <div className="flex flex-col justify-center">
                             <span className="text-sm font-bold tracking-tighter leading-none text-white">
@@ -817,7 +876,7 @@ export default function HeaderClient({ initialCategories }: HeaderClientProps) {
                               </div>
                             )}
                           </div>
-                        )}
+                        )} */}
                       </Link>
                       
                       <button

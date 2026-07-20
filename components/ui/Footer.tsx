@@ -96,7 +96,7 @@ export default function Footer() {
               <div
                 className="
                   relative
-                  w-24 h-24 sm:w-20 sm:h-20 md:w-16 md:h-16 lg:w-20 lg:h-20
+                  w-24 h-24 sm:w-20 sm:h-20 md:w-16 md:h-16 lg:w-25 lg:h-25
                   transition-transform duration-200 group-hover:scale-105
                   mr-2 sm:mr-3
                 "
@@ -111,22 +111,7 @@ export default function Footer() {
                 />
               </div>
               
-              {/* Logo text - Dynamically split from siteName - FIXED SPACING */}
-              <div className="flex flex-col justify-center ml-0 sm:ml-0">
-                {/* Line 1: First Part (first word) */}
-                <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-tighter leading-none text-white drop-shadow-md">
-                  {logoFirstLine}
-                </span>
-                
-                {/* Line 2: Second Part (remaining words) - only show if exists */}
-                {logoSecondLine && (
-                  <div className="flex items-center mt-0.5 ml-2 sm:ml-4">
-                    <span className="text-[9px] sm:text-[10px] md:text-[11px] lg:text-xs font-bold uppercase tracking-wider text-[#FFD166]">
-                      {logoSecondLine}
-                    </span>
-                  </div>
-                )}
-              </div>
+      
             </Link>
             
             <p className="text-white mb-3 text-sm sm:text-base font-normal leading-relaxed">
@@ -210,7 +195,7 @@ export default function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <span className="text-sm sm:text-base font-semibold text-white">Email:</span>
-                <span className="text-sm sm:text-base font-medium text-white break-all">{settings.contactEmail}</span>
+    <span className="text-xs font-medium text-white truncate break-all">{settings.contactEmail}</span>
               </li>
               <li className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-[#FFD166] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

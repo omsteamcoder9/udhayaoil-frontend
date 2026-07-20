@@ -1,6 +1,9 @@
 // app/about/page.tsx
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRight, Leaf, Droplet, Award, Users, Sparkles, Heart, Sun, Wind, CheckCircle } from 'lucide-react';
 
 interface TeamMember {
   id: number;
@@ -11,125 +14,182 @@ interface TeamMember {
 }
 
 const AboutPage: React.FC = () => {
-  const storeName = process.env.NEXT_PUBLIC_SITE_NAME || 'ArtisanCraft Pro';
-  
+  const storeName = process.env.NEXT_PUBLIC_SITE_NAME || 'Udhaya Prime Oil Industry';
+
   const teamMembers: TeamMember[] = [
     {
       id: 1,
-      name: 'ArtisanCraft Team',
+      name: 'Udhaya Prime Team',
       role: 'Founders',
-      bio: `Our team has over 15 years of experience in the premium lifestyle products industry and founded ${storeName} with a vision to provide durable, high-quality kitchen knives, stylish bags, elegant earrings, and lifestyle essentials for modern homes.`,
+      bio: `Our team has over 15 years of experience in the premium cooking oil industry and founded ${storeName} with a vision to provide pure, cold-pressed coconut oil, groundnut oil, gingelly oil, and other healthy cooking oils for health-conscious families.`,
       image: '/images/m1.png'
     },
     {
       id: 2,
       name: 'Sourcing Experts',
       role: 'Sourcing Specialists',
-      bio: `Our sourcing experts work directly with the finest material suppliers to ensure we get the highest quality - premium steel for knives, genuine leather for bags, and authentic metals for jewelry for long-lasting performance.`,
+      bio: `Our sourcing experts work directly with the finest seed and nut farmers to ensure we get the highest quality raw materials for our cold-pressed oils - premium coconuts, groundnuts, and sesame seeds for authentic taste and maximum nutrition.`,
       image: '/images/m1.png'
     },
     {
       id: 3,
       name: 'Quality Team',
       role: 'Product Excellence',
-      bio: 'Our quality team ensures every kitchen knife, bag, and earring meets the highest standards of sharpness, durability, craftsmanship, and safety through rigorous testing and careful attention to detail.',
+      bio: 'Our quality team ensures every batch of coconut oil, groundnut oil, and gingelly oil meets the highest standards of purity, nutritional value, and taste through rigorous testing and careful cold-press processing.',
       image: '/images/m1.png'
     }
   ];
 
   const stats = [
     { number: '15+', label: 'Years Experience' },
-    { number: '50+', label: 'Product Varieties' },
+    { number: '20+', label: 'Oil Varieties' },
     { number: '25k+', label: 'Happy Customers' },
-    { number: '100%', label: 'Quality Assured' }
+    { number: '100%', label: 'Pure & Natural' }
   ];
 
   return (
-    <div className="min-h-screen bg-[#fafaf9] text-stone-800 font-sans selection:bg-[#1b4d2b]/20 overflow-x-hidden">
+    <div className="min-h-screen bg-white">
       
-      {/* --- Hero Section --- */}
-      <section className="relative pt-24 md:pt-32 pb-16 md:pb-20">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-20 pointer-events-none overflow-hidden">
-              <div className="absolute top-[-10%] right-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-gradient-to-r from-[#1b4d2b] via-[#1b4d2b] to-[#1b4d2b]/20 blur-[80px] md:blur-[120px]" />
-              <div className="absolute bottom-[-10%] left-[-5%] w-[250px] md:w-[400px] h-[250px] md:h-[400px] rounded-full bg-gradient-to-r from-[#1b4d2b] via-[#1b4d2b] to-[#1b4d2b]/10 blur-[60px] md:blur-[100px]" />
-          </div>
-          
-          <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-              <span className="inline-block py-1.5 px-4 mb-6 text-[10px] font-bold tracking-[0.2em] uppercase text-[#1b4d2b] bg-white border border-[#1b4d2b]/20 rounded-full shadow-sm">
-                 Est. 2010 • Our Heritage
-              </span>
-              <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-serif font-light mb-6 md:mb-8 tracking-tight leading-tight text-stone-900">
-                 Premium. Durable. <br className="hidden md:block"/> <span className="italic font-normal bg-gradient-to-r from-[#1b4d2b] via-[#1b4d2b] to-[#1b4d2b] bg-clip-text text-transparent">Lifestyle Essentials.</span>
-              </h1>
-              <p className="max-w-2xl mx-auto text-base md:text-lg lg:text-xl text-stone-600 leading-relaxed font-light px-4">
-                  Dedicated to providing premium quality kitchen knives, stylish bags, elegant earrings, and lifestyle products for modern homes and everyday use.
-              </p>
-          </div>
-      </section>
-
-      {/* --- Mission Section --- */}
-      <section className="py-16 md:py-24 bg-white" aria-label="Our Mission">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col lg:flex-row gap-12 md:gap-20 items-center">
-            <div className="relative group w-full lg:w-1/2 order-2 lg:order-1">
-              <div className="absolute -inset-2 md:-inset-4 bg-gradient-to-r from-[#1b4d2b]/5 via-[#1b4d2b]/5 to-[#1b4d2b]/5 rounded-2xl md:rounded-3xl rotate-3 transition-transform group-hover:rotate-1 duration-500" />
-              <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-xl md:rounded-2xl overflow-hidden shadow-xl md:shadow-2xl border border-stone-200/50">
-                  <Image
-                  src="/images/about1.jpg"
-                  alt="Premium Lifestyle Products - Kitchen Knives, Bags, Earrings"
-                  fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-              </div>
-              <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-white p-4 md:p-6 rounded-lg md:rounded-xl shadow-lg md:shadow-xl hidden md:block border border-stone-100">
-                  <p className="text-[#1b4d2b] text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1">Guaranteed</p>
-                  <p className="text-stone-900 font-serif text-lg md:text-xl italic">100% Premium Quality</p>
-              </div>
-            </div>
-            
-            <div className="space-y-8 md:space-y-10 w-full lg:w-1/2 order-1 lg:order-2">
-              <div className="space-y-3 md:space-y-4">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#1b4d2b]">Our Philosophy</h2>
-                  <div className="w-12 md:w-16 h-1 md:h-1.5 bg-gradient-to-r from-[#1b4d2b] via-[#1b4d2b] to-[#1b4d2b] rounded-full" />
-              </div>
-              
-              <div className="space-y-4 md:space-y-6 text-base md:text-lg text-stone-600 leading-relaxed">
-                  <p>
-                      Our mission is to make high-quality, durable lifestyle products accessible to every modern home. We believe in the power of well-crafted products to make cooking, fashion, and daily living efficient, stylish, and effortless.
-                  </p>
-                  <p className="font-light">
-                      We carefully source our materials from trusted suppliers, ensuring every kitchen knife, bag, and earring meets the highest standards of craftsmanship, durability, and ergonomic design for our customers.
-                  </p>
-              </div>
-
-              <div className="p-6 md:p-8 bg-gradient-to-r from-[#1b4d2b]/5 via-[#1b4d2b]/5 to-[#1b4d2b]/5 rounded-xl md:rounded-2xl border-l-4 md:border-l-8 border-[#1b4d2b] italic text-lg md:text-xl text-stone-700 font-serif leading-relaxed shadow-sm">
-                Quality products make every kitchen task easier and every style statement bolder.
-              </div>
-            </div>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-[#1b4d2b]/5 via-[#1b4d2b]/10 to-[#1b4d2b]/5 pt-32 pb-20">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <span className="inline-block px-4 py-1.5 bg-[#1b4d2b] text-white text-xs font-semibold rounded-full uppercase tracking-wider mb-6">
+            Since 2026
+          </span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+            Pure. Natural.
+            <br />
+            <span className="text-[#1b4d2b]">Healthy Cooking Oils</span>
+          </h1>
+          <p className="max-w-2xl mx-auto text-lg text-gray-600 leading-relaxed">
+            Dedicated to providing premium quality cold-pressed coconut oil, groundnut oil, 
+            gingelly oil, and healthy cooking oils for modern families.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            <Link 
+              href="/products" 
+              className="inline-flex items-center gap-2 px-8 py-3 bg-[#1b4d2b] text-white rounded-lg font-semibold hover:bg-[#1b4d2b]/90 transition-colors"
+            >
+              Shop Now
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link 
+              href="#story" 
+              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-gray-700 rounded-lg font-semibold border border-gray-200 hover:bg-gray-50 transition-colors"
+            >
+              Our Story
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* --- Stats Section --- */}
-      <section className="py-16 md:py-24 bg-[#1b4d2b] text-white relative">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      {/* Stats Section */}
+      <section className="py-16 bg-white border-y border-gray-100">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif mb-2 md:mb-3 text-[#FFD166] group-hover:scale-110 transition-transform duration-500">
+              <div key={index} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-[#1b4d2b] mb-2">
                   {stat.number}
                 </div>
-                <div className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-[#FFF8E7]/80 font-bold px-1">{stat.label}</div>
+                <div className="text-sm text-gray-600 uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
       </section>
 
-      {/* --- Team Section --- */}
+      {/* Story Section */}
+      <section id="story" className="py-20">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <span className="inline-block px-4 py-1 bg-[#1b4d2b]/10 text-[#1b4d2b] text-xs font-semibold rounded-full uppercase tracking-wider mb-4">
+                Our Story
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                A Legacy of <span className="text-[#1b4d2b]">Pure Nutrition</span>
+              </h2>
+              <div className="space-y-4 text-gray-600 leading-relaxed">
+                <p>
+                  For over a decade, we've been dedicated to bringing the purest, most nutritious 
+                  cooking oils to families across the country.
+                </p>
+                <p>
+                  We carefully source our seeds and nuts from trusted farmers, ensuring every batch 
+                  of coconut oil, groundnut oil, and gingelly oil meets the highest standards of 
+                  purity and nutritional value.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-[#1b4d2b]" />
+                  <span>100% Pure</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-[#1b4d2b]" />
+                  <span>Cold Pressed</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-[#1b4d2b]" />
+                  <span>No Additives</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-[#1b4d2b]" />
+                  <span>Premium Quality</span>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="rounded-2xl overflow-hidden shadow-xl">
+                <div className="aspect-[4/3] relative bg-gray-100">
+                  <Image
+                    src="/images/about1.jpg"
+                    alt="About Us"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="inline-block px-4 py-1 bg-[#1b4d2b]/10 text-[#1b4d2b] text-xs font-semibold rounded-full uppercase tracking-wider mb-4">
+              Our Values
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              What Makes Us Different
+            </h2>
+            <p className="text-gray-600">
+              Every drop of our oil reflects our commitment to purity, health, and sustainability
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: <Sun className="w-6 h-6" />, title: 'Natural Purity', desc: '100% pure, cold-pressed oils' },
+              { icon: <Heart className="w-6 h-6" />, title: 'Health First', desc: 'Nutrient-rich for wellness' },
+              { icon: <Droplet className="w-6 h-6" />, title: 'Premium Quality', desc: 'Finest seeds and nuts' },
+              { icon: <Wind className="w-6 h-6" />, title: 'Sustainable', desc: 'Eco-friendly methods' }
+            ].map((value, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-[#1b4d2b]/10 rounded-lg flex items-center justify-center text-[#1b4d2b] mb-4">
+                  {value.icon}
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2">{value.title}</h3>
+                <p className="text-sm text-gray-600">{value.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 md:py-32 bg-[#fafaf9]" aria-label="Our Team">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-12 md:mb-24 space-y-3 md:space-y-4">
@@ -169,51 +229,22 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* --- Elevated CTA Section --- */}
-      <section className="py-12 md:py-24 container mx-auto px-4 md:px-6">
-        <div className="relative bg-[#1b4d2b] rounded-2xl md:rounded-[3.5rem] overflow-hidden group">
-          <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
-          <div className="relative z-10 flex flex-col lg:flex-row items-center">
-            <div className="p-8 md:p-12 lg:p-24 space-y-6 md:space-y-10 text-left w-full lg:w-1/2">
-              <div className="space-y-3 md:space-y-4">
-                <span className="text-[#FFD166] text-[9px] md:text-[10px] font-bold tracking-[0.3em] md:tracking-[0.4em] uppercase">
-                  Experience Premium Quality
-                </span>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-serif text-[#FFF8E7] leading-snug md:leading-[1.1]">
-                  Discover the craftsmanship of <span className="italic bg-gradient-to-r from-[#FFD166] via-[#FFD166] to-[#FFD166] bg-clip-text text-transparent">premium lifestyle products</span> from {storeName}
-                </h2>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 md:gap-6 items-start sm:items-center">
-                <Link 
-                  href="/products" 
-                  className="bg-[#FFD166] text-[#1b4d2b] px-6 py-3 md:px-10 md:py-5 rounded-full font-bold uppercase tracking-widest text-[10px] md:text-[11px] hover:bg-[#FFE08A] transition-all hover:-translate-y-1 shadow-xl md:shadow-2xl inline-block text-center"
-                >
-                  Shop Now
-                </Link>
-
-                <button className="text-[#FFF8E7]/60 hover:text-[#FFF8E7] text-[10px] md:text-[11px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group/link">
-                  Our Craftsmanship Process 
-                  <span className="group-hover/link:translate-x-2 transition-transform">→</span>
-                </button>
-              </div>
-            </div>
-            
-            <div className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-full lg:min-h-[400px] w-full lg:w-1/2 overflow-hidden">
-              <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-l from-[#1b4d2b]/50 to-transparent z-10" />
-              <Image
-                src="/images/about.png"
-                alt="Premium Lifestyle Products - Kitchen Knives, Bags, Earrings"
-                fill
-                className="object-cover transition-transform duration-[3000ms] group-hover:scale-105"
-              />
-              <div className="">
-                <p className="text-white text-[7px] md:text-[8px] font-bold uppercase tracking-tighter">
-                  Premium <br/> Lifestyle <br/> Essentials
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="absolute bottom-[-10%] left-[-5%] w-32 h-32 md:w-64 md:h-64 bg-gradient-to-r from-[#1b4d2b] via-[#1b4d2b] to-[#1b4d2b]/20 blur-[60px] md:blur-[100px] rounded-full" />
+      {/* CTA Section */}
+      <section className="py-20 bg-[#1b4d2b]">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Experience the Purity
+          </h2>
+          <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
+            Join thousands of health-conscious families who trust our premium cold-pressed oils
+          </p>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 px-10 py-4 bg-white text-[#1b4d2b] rounded-lg font-bold hover:bg-gray-50 transition-colors"
+          >
+            Shop Now
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </div>
